@@ -19,7 +19,7 @@ Subscriptions look like this in JSON
 
 
 describe('Routing', function() {
-  var url = 'http://localhost:3000';
+  var url = 'http://localhost/emailsubscriber';
 
   before(function(done) {
     dbutils.cleardb(function(){done();});
@@ -31,7 +31,7 @@ describe('Routing', function() {
     it('should successfully create a new subscription', function(done) {
       var profile = {
         eventTitle: 'News flash 6',
-        alertEndpoint:'kjoewill@gmail.com'
+        alertEndpoint:'angarita.rafael@gmail.com'
       };
     request(url)
 	.post('/subscriptions')
@@ -48,7 +48,7 @@ describe('Routing', function() {
     it('should successfully create another new subscription', function(done) {
       var profile = {
         eventTitle: 'News flash 7',
-        alertEndpoint:'kjoewill@gmail.com'
+        alertEndpoint:'angarita.rafael@gmail.com'
       };
     request(url)
 	.post('/subscriptions')
@@ -92,9 +92,9 @@ describe('Routing', function() {
           res.body.should.have.lengthOf(3);
           subsArray = JSON.parse(res.text);
           assert.equal(subsArray[0].eventTitle, 'News flash 6');
-          assert.equal(subsArray[0].alertEndpoint, 'kjoewill@gmail.com');
+          assert.equal(subsArray[0].alertEndpoint, 'angarita.rafael@gmail.com');
           assert.equal(subsArray[1].eventTitle, 'News flash 7');
-          assert.equal(subsArray[1].alertEndpoint, 'kjoewill@gmail.com');
+          assert.equal(subsArray[1].alertEndpoint, 'angarita.rafael@gmail.com');
           assert.equal(subsArray[2].eventTitle, 'News flash 8');
           assert.equal(subsArray[2].alertEndpoint, 'kjoewill@gmail.com');
 

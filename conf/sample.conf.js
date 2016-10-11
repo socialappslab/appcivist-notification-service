@@ -1,3 +1,3 @@
 module.exports = {
-    host 'appcivist.littlemacondo.com/notificationbc',
+    host: 'appcivist.littlemacondo.com/notificationbc'
 };

@@ -27,23 +27,23 @@ Signals look like this:
 
 
 function processMatch(subscription, signal) {
-
-    // Build the post string from an object
-    var body = querystring.stringify({
-        'alertEndpoint': subscription.alertEndpoint,
-        'eventTitle': subscription.eventTitle,
-        'data': signal.instancedata
-    });
-
+    console.log('subscriptions: ', subscription);
+    console.log('signal: ', signal);
     request.post(
-        conf.host, {
+        'http://' + conf.host, {
             json: {
-                key: 'value'
+		'destination':'email',
+                'to': '["' + subscription.alertEndpoint + '"]',
+        	"from":"AppCivist Bot <bot@appcivist.org>",
+		'subject': subscription.eventTitle,
+        	'text': signal.instancedata
             }
         },
         function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                console.log(body)
+            //console.log(response);
+	    //console.log(error);
+	    if (!error && response.statusCode == 200) {
+               console.log(body)
             }
         }
     );
