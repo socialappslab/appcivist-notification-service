@@ -1,0 +1,8 @@
+curl -X POST http://appcivist.littlemacondo.com/emailsubscriber/events -H "Content-Type: application/json" -d '{ "title": "News flash 6", "_id": "521d8970a1b6cd31a3000002"}'
+
+
+
+curl -X POST http://appcivist.littlemacondo.com/emailsubscriber/subscriptions -H "Content-Type: application/json" -d '{"eventTitle": "News flash 6","alertEndpoint": "angarita.rafael@gmail.com","_id": "521a5af259b05b8099000003"}'
+
+
+curl -X POST http://appcivist.littlemacondo.com/emailsubscriber/signals -H "Content-Type: application/json" -d '{"eventTitle": "News flash 6","instancedata": "This one weighed more than 16 megatons!!"}'
