@@ -38,6 +38,7 @@ jspm_packages
 .node_repl_history
 
 config.js
+*conf.js
 
 node_modules
 
