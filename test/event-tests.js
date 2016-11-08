@@ -16,7 +16,8 @@ describe('Routing', function() {
   describe('Event', function() {
     it('should successfully create a new event', function(done) {
       var profile = {
-        title: 'News flash 6'
+        eventId: '12345_new_campaign',
+        title: 'A new campaign has been created'
       };
     request(url)
 	.post('/events')
@@ -32,7 +33,8 @@ describe('Routing', function() {
 
     it('should successfully create another new event', function(done) {
       var profile = {
-        title: 'News flash 7'
+          eventId: '123456_new_campaign',
+          title: 'A new campaign has been created'
       };
     request(url)
 	.post('/events')
@@ -48,7 +50,8 @@ describe('Routing', function() {
 
     it('should successfully create even another new event', function(done) {
       var profile = {
-        title: 'News flash 8'
+          eventId: '1234567_new_campaign',
+          title: 'A new campaign has been created'
       };
     request(url)
 	.post('/events')
@@ -74,15 +77,15 @@ describe('Routing', function() {
           res.should.have.status(200);
           res.body.should.have.lengthOf(3);
           eventsArray = JSON.parse(res.text);
-          assert.equal(eventsArray[0].title, 'News flash 6');
-          assert.equal(eventsArray[1].title, 'News flash 7');
-          assert.equal(eventsArray[2].title, 'News flash 8');
+          assert.equal(eventsArray[0].eventId, '12345_new_campaign');
+          assert.equal(eventsArray[1].eventId, '123456_new_campaign');
+          assert.equal(eventsArray[2].eventId, '1234567_new_campaign');
           newsFlash6id = eventsArray[0]._id;
           done();
         });
     });
 
-    it('should return news flash 6 event', function(done) {
+    it('should return news 12345_new_campaign event', function(done) {
     request(url)
 	.get('/events/'+ newsFlash6id)
 	.end(function(err, res) {
@@ -90,8 +93,8 @@ describe('Routing', function() {
             throw err;
           }
           res.should.have.status(200);
-          res.body.should.have.property('title');
-          res.body.title.should.equal('News flash 6');
+          res.body.should.have.property('eventId');
+          res.body.eventId.should.equal('12345_new_campaign');
           done();
         });
     });
@@ -101,7 +104,7 @@ describe('Routing', function() {
 
     it('should successfully update a specific event', function(done) {
       var profile = {
-        title: 'News flash 6 - revised'
+        eventId: '12345_new_campaign_revised'
       };
     request(url)
 	.put('/events/'+ newsFlash6id)
@@ -111,12 +114,12 @@ describe('Routing', function() {
             throw err;
           }
           res.should.have.status(200);
-          res.body.title.should.equal('News flash 6 - revised')
+          res.body.eventId.should.equal('12345_new_campaign_revised')
           done();
         });
     });
 
-    it('should verify revised News flash 6 event', function(done) {
+    it('should verify revised 12345_new_campaign event', function(done) {
     request(url)
 	.get('/events/'+ newsFlash6id)
 	.end(function(err, res) {
@@ -124,15 +127,15 @@ describe('Routing', function() {
             throw err;
           }
           res.should.have.status(200);
-          res.body.should.have.property('title');
-          res.body.title.should.equal('News flash 6 - revised');
+          res.body.should.have.property('eventId');
+          res.body.eventId.should.equal('12345_new_campaign_revised');
           done();
         });
     });
 
     //Delete tests
     //
-    it('should delete revised News flash 6 event', function(done) {
+    it('should delete revised 12345_new_campaign event', function(done) {
     request(url)
 	.del('/events/'+ newsFlash6id)
 	.end(function(err, res) {
@@ -154,12 +157,10 @@ describe('Routing', function() {
           res.should.have.status(200);
           res.body.should.have.lengthOf(2);
           eventsArray = JSON.parse(res.text);
-          assert.equal(eventsArray[0].title, 'News flash 7');
-          assert.equal(eventsArray[1].title, 'News flash 8');
+          assert.equal(eventsArray[0].eventId, '123456_new_campaign');
+          assert.equal(eventsArray[1].eventId, '1234567_new_campaign');
           done();
         });
     });
-
-
   });
 });

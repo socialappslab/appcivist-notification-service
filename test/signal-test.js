@@ -29,7 +29,7 @@ describe('Routing', function() {
   describe('Signals', function() {
     it('should successfully create a new event', function(done) {
       var profile = {
-        title: 'News flash 100'
+        eventId: '12345_new_campaign'
       };
     request(url)
 	.post('/events')
@@ -45,7 +45,7 @@ describe('Routing', function() {
 
     it('should successfully create another new event', function(done) {
       var profile = {
-        title: 'News flash 101'
+        eventId: '123456_new_campaign'
       };
     request(url)
 	.post('/events')
@@ -61,7 +61,7 @@ describe('Routing', function() {
 
     it('should successfully create even another new event', function(done) {
       var profile = {
-        title: 'News flash 102'
+        eventId: '1234567_new_campaign'
       };
     request(url)
 	.post('/events')
@@ -79,7 +79,7 @@ describe('Routing', function() {
   
     it('should successfully create a new subscription', function(done) {
       var profile = {
-        eventTitle: 'News flash 100',
+        eventId: '12345_new_campaign',
         alertEndpoint:'kjoewill@gmail.com'
       };
     request(url)
@@ -96,7 +96,7 @@ describe('Routing', function() {
 
     it('should successfully create another new subscription', function(done) {
       var profile = {
-        eventTitle: 'News flash 100',
+        eventId: '12345_new_campaign',
         alertEndpoint:'kjwillia@us.ibm.com'
       };
     request(url)
@@ -113,7 +113,7 @@ describe('Routing', function() {
 
     it('should successfully create even another new subscription', function(done) {
       var profile = {
-        eventTitle: 'News flash 102',
+        eventId: '123456_new_campaign',
         alertEndpoint:'kjoewill@gmail.com'
       };
     request(url)
@@ -128,14 +128,12 @@ describe('Routing', function() {
         });
     });
 
-
-
     //Signal tests
     //
     it('should signal one event and trigger return two notifications', function(done) {
       var profile = {
-        eventTitle: 'News flash 100',
-        instancedata: 'An instance of event(News flash 100) has happened'
+        eventId: '12345_new_campaign',
+        instancedata: 'An instance of event(12345_new_campaign) has happened'
       };
     request(url)
 	.post('/signals')
@@ -148,9 +146,9 @@ describe('Routing', function() {
           res.body.should.have.lengthOf(2);
           eventsArray = JSON.parse(res.text);
           assert.equal(eventsArray[0].alertEndpoint, 'kjoewill@gmail.com');
-          assert.equal(eventsArray[0].eventTitle, 'News flash 100');
+          assert.equal(eventsArray[0].eventId, '12345_new_campaign');
           assert.equal(eventsArray[1].alertEndpoint, 'kjwillia@us.ibm.com');
-          assert.equal(eventsArray[1].eventTitle, 'News flash 100');
+          assert.equal(eventsArray[1].eventId, '12345_new_campaign');
 
           done();
         });
@@ -168,7 +166,7 @@ describe('Routing', function() {
           res.should.have.status(200);
 		  res.body.should.have.lengthOf(1);
           eventsArray = JSON.parse(res.text);
-          assert.equal(eventsArray[0].eventTitle, 'News flash 100');
+          assert.equal(eventsArray[0].eventId, '12345_new_campaign');
           done();
         });
     });

@@ -10,33 +10,33 @@ var request = require('request');
 var conf = require('../conf/conf');
 
 /*
-
 Signals look like this:
-
   {
-     "eventTitle": "Large meteor strikes the moon",
-     "instancedata": "This one weighed more than 16 megatons!!"
+     "eventId": "12345_new_campaign",
+     "eventTitle": "A New CAMPAIGN in City of Vallejo",
+     "text": "Check out this new",
+     "data": "{JSON-DATA}"
   }
-
-
 */
 
-
-
-
-
-
+/**
+ * Process the signal for a specific subscription
+ * TODO: as of now, it simply sends the notification to the email service, in the future we should process each subscription depending on the type
+ * @param subscription
+ * @param signal
+ */
 function processMatch(subscription, signal) {
     console.log('subscriptions: ', subscription);
     console.log('signal: ', signal);
+    // TODO: send the signal in the social bus to let the app know
     request.post(
         'http://' + conf.host, {
             json: {
-		'destination':'email',
+		        'destination':'email',
                 'to': '["' + subscription.alertEndpoint + '"]',
-        	"from":"AppCivist Bot <bot@appcivist.org>",
-		'subject': subscription.eventTitle,
-        	'text': signal.instancedata
+        	    'from':"AppCivist Bot <bot@appcivist.org>",
+		        'subject': signal.title,
+                'text': signal.text
             }
         },
         function(error, response, body) {
@@ -50,11 +50,6 @@ function processMatch(subscription, signal) {
 
 }
 
-
-
-
-
-
 exports.processSignal = function(req, res) {
     var signal = req.body;
     console.log('Processing Signal: ' + JSON.stringify(signal));
@@ -63,7 +58,7 @@ exports.processSignal = function(req, res) {
         var collection = db.collection('subscriptions');
         collection.find().toArray(function(err, items) {
             matches = _.filter(items, function(sub) {
-                return sub.eventTitle == signal.eventTitle
+                return sub.eventId == signal.eventId
             });
             _.each(matches, function(sub) {
                 processMatch(sub, signal)

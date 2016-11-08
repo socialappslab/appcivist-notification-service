@@ -8,10 +8,10 @@ var mongoUri = dbutils.mongoUri;
 Events look like this in JSON
 
   {
+    "eventId": "news_flash",
     "title": "News flash 6",
     "_id": "521d8970a1b6cd31a3000001"
   }
-
 */
 
 

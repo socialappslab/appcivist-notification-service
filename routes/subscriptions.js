@@ -9,8 +9,9 @@ var mongoUri = dbutils.mongoUri;
 Subscriptions look like this in JSON
 
   {
-    "eventTitle": "New CLM Build Available",
+    "eventId": "12345_new_campaign",
     "alertEndpoint": "kjoewill@gmail.com",
+    "type": "email",
     "_id": "521a5af259b05b8099000002"
   }
 
