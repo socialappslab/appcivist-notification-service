@@ -1,4 +1,5 @@
 var mongo = require('mongodb').MongoClient;
+mongo.BSONPure = require('bson').BSONPure;
 var BSON = mongo.BSONPure;
 
 var dbutils = require('../lib/dbutils.js');
