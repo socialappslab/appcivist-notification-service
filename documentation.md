@@ -63,6 +63,11 @@ curl -i -X POST -H 'Content-Type: application/json' -d '{"eventId" : "1234_NEW_C
 curl -i -X POST -H 'Content-Type: application/json' -d '{"eventId": "1234_NEW_CONTRIBUTION_IDEA", "alertEndpoint": "account@mail.com", "endpointType" : "email"}'   // TODO: tp://<hostname>/subscriptions
 ```
 
+### List Subscriptions per Alert Endpoint
+```
+curl -i -X GET -H 'Content-Type: application/json' http://<hostname>/subscriptions/endpoint/<alert-endpoint>
+```
+
 ### Signal an Event
 ```
 curl -i -XPOST -H 'Content-Type: application/json' -d '{"eventId": "1234_NEW_CONTRIBUTION_IDEA", "title": "New IDEA in Quality of Life WG", "text" : "Notification text", "data": "Build ID: dget-2241"}' http://<hostname>/signals
