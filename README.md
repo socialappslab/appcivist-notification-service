@@ -1,6 +1,8 @@
 # AppCivist Notification Service
 Updated version of the notification service presented [here](https://www.ibm.com/developerworks/library/wa-notify-app/) 
 
+See the [documentation](documentation.md) to learn how to use it
+
 You can also check the [original code](https://hub.jazz.net/project/kjwillia/notification-service/overview?utm_source=dw&utm_medium=article&utm_content=wa-notify-app&utm_campaign=bluemix)
 
 Original Notes
