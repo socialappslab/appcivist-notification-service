@@ -43,17 +43,17 @@ The API is REST-based. All data exchanged is JSON.  For illustrative purpose API
 The following APIs support the primary use cases
 ### Create an Event
 ```
-curl -i -X POST -H 'Content-Type: application/json' -d '{"title": "New Widget Build Available"}' http://<hostname>/events
+curl -i -X POST -H 'Content-Type: application/json' -d '{"eventId" : "1234_NEW_CONTRIBUTION_IDEA", "title": "New IDEA"}' http://<hostname>/events
 ```
 
 ### Subscribe to an Event
 ```
-curl -i -X POST -H 'Content-Type: application/json' -d '{"eventTitle": "New Widget Build Available", "alertEndpoint": "account@mail.com"}' http://<hostname>/subscriptions
+curl -i -X POST -H 'Content-Type: application/json' -d '{"eventId": "1234_NEW_CONTRIBUTION_IDEA", "alertEndpoint": "account@mail.com", "endpointType" : "email"}'   // TODO: tp://<hostname>/subscriptions
 ```
 
 ### Signal an Event
 ```
-curl -i -XPOST -H 'Content-Type: application/json' -d '{"eventTitle": "New Widget Build Available", "instancedata": "Build ID: Widget-2241"}' http://<hostname>/signals
+curl -i -XPOST -H 'Content-Type: application/json' -d '{"eventId": "1234_NEW_CONTRIBUTION_IDEA", "title": "New IDEA in Quality of Life WG", "text" : "Notification text", "data": "Build ID: dget-2241"}' http://<hostname>/signals
 ```
 
 The following APIs are intended for secondary(admin-type)scenarios like cleanup, etc.
