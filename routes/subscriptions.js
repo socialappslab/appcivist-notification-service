@@ -21,6 +21,7 @@ Subscriptions look like this in JSON
 
 exports.findById = function(req, res) {
   var id = req.params.id;
+  console.log("Looking up subscription with id = "+id);
 
   mongo.connect(mongoUri, function (err, db) {
     var collection = db.collection('subscriptions');           
@@ -78,4 +79,48 @@ exports.deleteSubscription = function(req, res) {
       });
   });
 }
+
+exports.findByEventIdAndAlert = function(req, res) {
+ console.log("Request = "+JSON.stringify(req.params));
+ var eid = req.params.eid;
+ var alert = req.params.alert;
+ console.log("Looking up subscription with eventId = "+eid+" and alertEndpoint = "+alert);
+
+  mongo.connect(mongoUri, function (err, db) {
+    var collection = db.collection('subscriptions');           
+    collection.findOne({'eventId': eid, 'alertEndpoint': alert}, function(err, item) {
+        res.send(item);
+        db.close();
+      });
+  });
+}
+
+exports.updateSubscriptionByEventIdAndAlert = function(req, res) {
+  var eid = req.params.eid;
+  var alert = req.params.alert;
+  var subscription = req.body;
+
+  mongo.connect(mongoUri, function (err, db) {
+    var collection = db.collection('subscriptions');
+      collection.update({'eventId': eid, 'alertEndpoint': alert}, subscription, {safe:true}, function(err, result) {
+        res.send(subscription);
+        db.close();
+      });
+  });
+}
+ 
+exports.deleteSubscriptionByEventIdAndAlert = function(req, res) {
+  var eid = req.params.eid;
+  var alert = req.params.alert;
+
+  mongo.connect(mongoUri, function (err, db) {
+    var collection = db.collection('subscriptions');
+      collection.remove({'eventId': eid, 'alertEndpoint': alert}, {safe:true}, function(err, result) {
+        res.send(req.body);
+        db.close()
+      });
+  });
+}
+
+
  

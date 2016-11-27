@@ -27,6 +27,9 @@ app.get('/subscriptions/:id', sub.findById);
 app.post('/subscriptions', sub.addSubscription);
 app.put('/subscriptions/:id', sub.updateSubscription);
 app.delete('/subscriptions/:id', sub.deleteSubscription);
+app.get('/subscriptions/:eid/:alert', sub.findByEventIdAndAlert);
+app.put('/subscriptions/:eid/:alert', sub.updateSubscriptionByEventIdAndAlert);
+app.delete('/subscriptions/:eid/:alert', sub.deleteSubscriptionByEventIdAndAlert);
 
 console.log ('registering signal routes with express');
 app.post('/signals', signal.processSignal);

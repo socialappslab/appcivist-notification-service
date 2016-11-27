@@ -19,12 +19,11 @@ Events look like this in JSON
 exports.findById = function(req, res) {
   var id = req.params.id;
 
-  mongo.Db.connect(mongoUri, function (err, db) {
-    db.collection('events', function(err, collection) {
-      collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
-        res.send(item);
-        db.close();
-      });
+  mongo.connect(mongoUri, function (err, db) {
+    var collection = db.collection('events');
+    collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
+      res.send(item);
+      db.close();
     });
   });
 }
@@ -33,11 +32,10 @@ exports.findById = function(req, res) {
 exports.findAll = function(req, res) {
 
   mongo.connect(mongoUri, function (err, db) {
-    db.collection('events', function(er, collection) {
-      collection.find().toArray(function(err, items) {
-        res.send(items);
-        db.close();
-      });
+    var collection = db.collection('events');
+    collection.find().toArray(function(err, items) {
+      res.send(items);
+      db.close();
     });
   });
 }
@@ -61,10 +59,10 @@ exports.updateEvent = function(req, res) {
 
   mongo.connect(mongoUri, function (err, db) {
     var collection = db.collection('events');
-      collection.update({'_id':new BSON.ObjectID(id)}, event, {safe:true}, function(err, result) {
-        res.send(event);
-        db.close();
-      });
+    collection.update({'_id':new BSON.ObjectID(id)}, event, {safe:true}, function(err, result) {
+      res.send(event);
+      db.close();
+    });
   });
 }
  
@@ -73,10 +71,10 @@ exports.deleteEvent = function(req, res) {
 
   mongo.connect(mongoUri, function (err, db) {
     var collection = db.collection('events');
-      collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
-        res.send(req.body);
-        db.close();
-      });
+    collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
+      res.send(req.body);
+      db.close();
+    });
   });
 }
  

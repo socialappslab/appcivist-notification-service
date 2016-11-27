@@ -17,7 +17,7 @@ Signals look like this:
 
  
 describe('Routing', function() {
-  var url = 'http://localhost:3000';
+  var url = 'http://localhost:3025';
 
   before(function(done) {
     dbutils.cleardb(function(){done();});
@@ -38,7 +38,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           done();
         });
     });
@@ -54,7 +54,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           done();
         });
     });
@@ -70,7 +70,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           done();
         });
     });
@@ -89,7 +89,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           done();
         });
     });
@@ -106,7 +106,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           done();
         });
     });
@@ -123,7 +123,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           done();
         });
     });
@@ -142,7 +142,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           res.body.should.have.lengthOf(2);
           eventsArray = JSON.parse(res.text);
           assert.equal(eventsArray[0].alertEndpoint, 'kjoewill@gmail.com');
@@ -163,7 +163,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
 		  res.body.should.have.lengthOf(1);
           eventsArray = JSON.parse(res.text);
           assert.equal(eventsArray[0].eventId, '12345_new_campaign');

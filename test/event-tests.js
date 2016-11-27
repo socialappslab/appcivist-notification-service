@@ -5,7 +5,7 @@ var dbutils = require('../lib/dbutils.js');
 var newsFlash6id;
  
 describe('Routing', function() {
-  var url = 'http://localhost:3000';
+  var url = 'http://localhost:3025';
 
   before(function(done) {
     dbutils.cleardb(function(){done();});
@@ -26,7 +26,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           done();
         });
     });
@@ -43,7 +43,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           done();
         });
     });
@@ -60,7 +60,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           done();
         });
     });
@@ -74,7 +74,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           res.body.should.have.lengthOf(3);
           eventsArray = JSON.parse(res.text);
           assert.equal(eventsArray[0].eventId, '12345_new_campaign');
@@ -85,6 +85,8 @@ describe('Routing', function() {
         });
     });
 
+  console.log("Checking on event with _id = "+newsFlash6id);
+
     it('should return news 12345_new_campaign event', function(done) {
     request(url)
 	.get('/events/'+ newsFlash6id)
@@ -92,7 +94,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           res.body.should.have.property('eventId');
           res.body.eventId.should.equal('12345_new_campaign');
           done();
@@ -113,7 +115,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           res.body.eventId.should.equal('12345_new_campaign_revised')
           done();
         });
@@ -126,7 +128,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           res.body.should.have.property('eventId');
           res.body.eventId.should.equal('12345_new_campaign_revised');
           done();
@@ -142,7 +144,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           done();
         });
     });
@@ -154,7 +156,7 @@ describe('Routing', function() {
           if (err) {
             throw err;
           }
-          res.should.have.status(200);
+          res.should.have.property('status',200);
           res.body.should.have.lengthOf(2);
           eventsArray = JSON.parse(res.text);
           assert.equal(eventsArray[0].eventId, '123456_new_campaign');
