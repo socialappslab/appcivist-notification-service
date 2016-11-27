@@ -13,8 +13,19 @@ This service runs as a node.js application and provides a rest-based API to clie
 ## Setup
 ### Install node  
 I have been using v0.10.15 for initial development and testing
-### Install MongoDB
+### Install MongoDB and create collection
 I have been using v2.4.5 for initial development and testing
+Run mongo: 
+```
+mongod &
+```
+
+Create collection in mongo: 
+```
+mongo
+db.createCollection('notificationservice')
+```
+
 ### Pull from GitHub
 Get a local copy of the project (using git or copy the zip) and then use the node package manager to install needed prereqs defined in package.json ...
 ```
@@ -34,7 +45,7 @@ node server.js
 ```
 with the server running you can launch the test suite from a separate shell ...
 ```
-mocha
+./node_modules/mocha/bin/mocha
 ```
 
 ## API
