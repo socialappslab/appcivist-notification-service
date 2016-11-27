@@ -115,6 +115,28 @@ describe('Routing', function() {
         });
     });
 
+    it('should return three subscriptions for one alertEndpoint', function(done) {
+    request(url)
+  .get('/subscriptions/endpoint/angarita.rafael@gmail.com')
+  .end(function(err, res) {
+          if (err) {
+            throw err;
+          }
+          res.should.have.property('status',200);
+          res.body.should.have.lengthOf(3);
+          subsArray = JSON.parse(res.text);
+          assert.equal(subsArray[0].eventId, '12345_NEW_CONTRIBUTION_IDEA');
+          assert.equal(subsArray[0].alertEndpoint, 'angarita.rafael@gmail.com');
+          assert.equal(subsArray[1].eventId, '12345_NEW_CONTRIBUTION_PROPOSAL');
+          assert.equal(subsArray[1].alertEndpoint, 'angarita.rafael@gmail.com');
+          assert.equal(subsArray[2].eventId, '12345_NEW_CONTRIBUTION_NOTE');
+          assert.equal(subsArray[2].alertEndpoint, 'angarita.rafael@gmail.com');
+
+          newsFlash6id = subsArray[0]._id;
+          done();
+        });
+    });
+
     it('should return news flash 6 subscription', function(done) {
     request(url)
 	.get('/subscriptions/'+ newsFlash6id)

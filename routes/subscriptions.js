@@ -95,6 +95,20 @@ exports.findByEventIdAndAlert = function(req, res) {
   });
 }
 
+exports.findByAlertEndpoint = function(req, res) {
+ console.log("Request = "+JSON.stringify(req.params));
+ var alert = req.params.alert;
+ console.log("Looking up subscription with alertEndpoint = "+alert);
+
+  mongo.connect(mongoUri, function (err, db) {
+    var collection = db.collection('subscriptions'); 
+    collection.find({'alertEndpoint': alert}).toArray(function(err, items) {
+        res.send(items);
+        db.close();
+      });
+  });
+}
+
 exports.updateSubscriptionByEventIdAndAlert = function(req, res) {
   var eid = req.params.eid;
   var alert = req.params.alert;
