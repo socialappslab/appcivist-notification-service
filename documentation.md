@@ -52,6 +52,7 @@ with the server running you can launch the test suite from a separate shell ...
 The API is REST-based. All data exchanged is JSON.  For illustrative purpose API calls are shown in the context of cURL commands.
 
 The following APIs support the primary use cases
+
 ### Create an Event
 ```
 curl -i -X POST -H 'Content-Type: application/json' -d '{"eventId" : "1234_NEW_CONTRIBUTION_IDEA", "title": "New IDEA"}' http://<hostname>/events
@@ -72,10 +73,17 @@ The following APIs are intended for secondary(admin-type)scenarios like cleanup,
 ```
 curl -i -X DELETE http://<hostname>/events/<event-id>
 ```
+
 ### Delete Subscription
 ```
 curl -i -X DELETE http://<hostname>/subscriptions/<subscription-id>
 ```
+
+### Delete Subscription using eventId and alertEndpoint
+```
+curl -i -X DELETE http://<hostname>/subscriptions/<event-id>/<alert-endpoint>
+```
+
 ### Modify Event
 ```
 curl -i -X PUT -H 'Content-Type: application/json' -d '{"description": "Brand new description"}' http://<hostname>/events/<event-id>
