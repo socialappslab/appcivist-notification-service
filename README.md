@@ -1,11 +1,9 @@
-# email-notification-service
+# AppCivist Notification Service
 Updated version of the notification service presented [here](https://www.ibm.com/developerworks/library/wa-notify-app/) 
 
 You can also check the [original code](https://hub.jazz.net/project/kjwillia/notification-service/overview?utm_source=dw&utm_medium=article&utm_content=wa-notify-app&utm_campaign=bluemix)
 
-Text from the original README.md:
-
-notification-service
+Original Notes
 ====================
 This software is licensed under the The MIT License (MIT) which is a permissive free software license.  See the associated LICENSE.md for details.
 
