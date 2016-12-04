@@ -91,6 +91,27 @@ describe('Routing', function() {
         });
     });
 
+
+    it('should not create even another new subscription because same eventId + alertEndpoint exists', function(done) {
+      var profile = {
+        eventId: "12345_NEW_CONTRIBUTION_NOTE",
+        alertEndpoint:'angarita.rafael@gmail.com',
+        endpointType:'email',
+        origin:'12345',
+        eventName:'NEW_CONTRIBUTION_NOTE'      
+      };
+    request(url)
+  .post('/subscriptions')
+  .send(profile)
+  .end(function(err, res) {
+          if (err) {
+            throw err;
+          }
+          res.should.have.property('status',201);
+          done();
+        });
+    });
+
     //Read tests
     //
     it('should return three subscriptions', function(done) {

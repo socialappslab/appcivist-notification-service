@@ -47,11 +47,19 @@ exports.addSubscription = function(req, res) {
   var subscription = req.body;
 
   mongo.connect(mongoUri, function (err, db) {
-    var collection = db.collection('subscriptions');
-    collection.insert(subscription, function(err, result) {
-        res.send(result[0]);
-        db.close();
-    });
+    var collection = db.collection('subscriptions');    
+    collection.findOne({'eventId': subscription.eventId, 'alertEndpoint': subscription.alertEndpoint}, 
+      function(err, item) {
+        if (item!=null && item !=undefined) {
+          res.status(201).send("Subscription already exist");
+          db.close();
+        } else {
+          collection.insert(subscription, function(err, result) {
+            res.send(result[0]);
+            db.close();
+          });
+        }
+      });
   });
 }
  
