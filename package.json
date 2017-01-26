@@ -10,8 +10,8 @@
         "mongodb" : "2.2.x",
         "request" : "2.78.x",
         "morgan" :"1.7",
-        "body-parser" : "1.15"
-
+        "body-parser" : "1.15",
+	"bson" : "1.0.x" 
     },
     "devDependencies": {
         "mocha": "*",
