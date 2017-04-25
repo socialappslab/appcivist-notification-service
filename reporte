@@ -1,0 +1,13 @@
+1) mongod error:(paso 1)
+crear directorio /data/db
+2)Error: Cannot find module './dbconf.js'
+ 
+https://i.gyazo.com/f27b2192ee5e124f6dacff47db125a31.png
+Solucion: ir a /lib y crear el arhivo db.conf a partir de sample que se nos daba
+3)Error:
+ 
+https://i.gyazo.com/e95478b2b114ace4aa8c8d10642b4096.png
+Solucion: ir a /conf y editar el sample (solo le cambie el nombre porqiue no sabia que debia poner ahi)
+Despues de todo eso podemos ejecutar el modulo y en el navegador se puede visualizar lo siguiente:
+ 
+https://i.gyazo.com/870d9a7fb1d8e60c11db816e87b08cab.png
