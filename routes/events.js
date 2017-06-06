@@ -1,10 +1,8 @@
 var mongo = require('mongodb').MongoClient;
-mongo.BSONPure = require('bson').BSONPure;
-var BSON = mongo.BSONPure;
-
-var dbutils = require('../lib/dbutils.js');
-var mongoUri = dbutils.mongoUri;
-
+//var mongoclass = require('mongodb');
+//var BSON = require('bson').BSONPure
+var ObjectID = require('mongodb').ObjectID;
+//var BSON = mongoclass;
 /*
 Events look like this in JSON
 
@@ -16,65 +14,82 @@ Events look like this in JSON
 */
 
 
-exports.findById = function(req, res) {
-  var id = req.params.id;
-
-  mongo.connect(mongoUri, function (err, db) {
+exports.findById = (req, res) => {
+    var id = req.params.id;
+    console.log('findById ' + id);
+    var db = req.app.get('db');
     var collection = db.collection('events');
-    collection.findOne({'_id':new BSON.ObjectID(id)}, function(err, item) {
-      res.send(item);
-      db.close();
+    collection.findOne({
+        '_id': new ObjectID(id)
+    }, (err, item) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(item);
+        }
     });
-  });
 }
 
- 
-exports.findAll = function(req, res) {
 
-  mongo.connect(mongoUri, function (err, db) {
+exports.findAll = (req, res) => {
+    var db = req.app.get('db');
     var collection = db.collection('events');
-    collection.find().toArray(function(err, items) {
-      res.send(items);
-      db.close();
+    collection.find().toArray((err, items) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(items);
+        }
     });
-  });
 }
- 
-exports.addEvent = function(req, res) {
-  var event = req.body;
 
-  mongo.connect(mongoUri, function (err, db) {
+exports.addEvent = (req, res) => {
+    console.log('add event');
+    var event = req.body;
+    var db = req.app.get('db');
     var collection = db.collection('events');
-    collection.insert(event, function(err, result) {
-        res.send(result[0]);
-        db.close();
-  	});
-   
-  });
-}
- 
-exports.updateEvent = function(req, res) {
-  var id = req.params.id;
-  var event = req.body;
-
-  mongo.connect(mongoUri, function (err, db) {
-    var collection = db.collection('events');
-    collection.update({'_id':new BSON.ObjectID(id)}, event, {safe:true}, function(err, result) {
-      res.send(event);
-      db.close();
+    collection.insert(event, (err, result) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(result[0]);
+        }
     });
-  });
 }
- 
-exports.deleteEvent = function(req, res) {
-  var id = req.params.id;
 
-  mongo.connect(mongoUri, function (err, db) {
+exports.updateEvent = (req, res) => {
+    var id = req.params.id;
+    var event = req.body;
+    var db = req.app.get('db');
     var collection = db.collection('events');
-    collection.remove({'_id':new BSON.ObjectID(id)}, {safe:true}, function(err, result) {
-      res.send(req.body);
-      db.close();
+    collection.update({
+        //'_id': new BSON.ObjectID(id)
+        '_id': new ObjectID(id)
+    }, event, {
+        safe: true
+    }, (err, result) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(event);
+        }
     });
-  });
 }
- 
+
+exports.deleteEvent = (req, res) => {
+    var id = req.params.id;
+    var db = req.app.get('db');
+    var collection = db.collection('events');
+    collection.remove({
+        //'_id': new BSON.ObjectID(id)
+        '_id': new ObjectID(id)
+    }, {
+        safe: true
+    }, (err, result) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(req.body);
+        }
+    });
+}

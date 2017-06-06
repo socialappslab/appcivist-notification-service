@@ -1,14 +1,10 @@
-var mongo = require('mongodb').MongoClient;
-mongo.BSONPure = require('bson').BSONPure;
-var BSON = mongo.BSONPure;
-
-var dbutils = require('../lib/dbutils.js');
-var mongoUri = dbutils.mongoUri;
+var BSON = require('bson').BSONPure;
 
 var _ = require('underscore');
 
 var request = require('request');
-var conf = require('../conf/conf');
+var Message = require('scb-node-parser/message');
+var sender = require('../amqp-sender');
 
 /*
 Signals look like this:
@@ -16,64 +12,63 @@ Signals look like this:
      "eventId": "12345_new_campaign",
      "eventTitle": "A New CAMPAIGN in City of Vallejo",
      "text": "Check out this new",
-     "data": "{JSON-DATA}"
+     "data": "{JSON-DATA}" //additional data
+     "filterBy": "email" //only signals subscriptions associated with this service
   }
 */
 
 /**
  * Process the signal for a specific subscription
- * TODO: as of now, it simply sends the notification to the email service, in the future we should process each subscription depending on the type
  * @param subscription
  * @param signal
  */
 function processMatch(subscription, signal) {
-    console.log('subscriptions: ', subscription);
+    console.log('subscription: ', subscription);
     console.log('signal: ', signal);
-    // TODO: send the signal in the social bus to let the app know
-    request.post(
-        'http://' + conf.host, {
-            json: {
-		        'destination':'email',
-                'to': '["' + subscription.alertEndpoint + '"]',
-        	    'from':"AppCivist Bot <bot@appcivist.org>",
-		        'subject': signal.title,
-                'text': signal.text
-            }
-        },
-        function(error, response, body) {
-            //console.log(response);
-	    //console.log(error);
-	    if (!error && response.statusCode == 200) {
-               console.log(body)
-            }
-        }
-    );
+    var message = new Message({
+        name: subscription.alertEndpoint,
+        uniqueName: subscription.alertEndpoint
+    }, {
+        name: 'AppCivist',
+        uniqueName: 'AppCivist'
+    }, signal.title, signal.text);
+
+    //TODO: if subscription.endpointType === 'usnb', get all services
+    //associated with that user and send the message to the USNB?
+    sender.post(message, subscription.endpointType);
 
 }
 
-exports.processSignal = function(req, res) {
+exports.processSignal = (req, res) => {
     var signal = req.body;
     console.log('Processing Signal: ' + JSON.stringify(signal));
 
-    mongo.connect(mongoUri, function(err, db) {
-        var collection = db.collection('subscriptions');
-        collection.find().toArray(function(err, items) {
-            matches = _.filter(items, function(sub) {
-                return sub.eventId == signal.eventId
+    db = req.app.get('db');
+    var collection = db.collection('subscriptions');
+    collection.find().toArray((err, items) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            matches = _.filter(items, (sub) => {
+                console.log('filterBy :' + signal.filterBy);
+                if (signal.filterBy && typeof signal.filterBy != 'undefined')
+                    return sub.eventId === signal.eventId &&
+                        signal.filterBy === sub.endpointType;
+                else
+                    return sub.eventId === signal.eventId;
             });
-            _.each(matches, function(sub) {
+            _.each(matches, (sub) => {
                 processMatch(sub, signal)
             });
             res.send(matches);
-        });
+        }
     });
 
     // Log reception of the signal
-    mongo.connect(mongoUri, function(err, db) {
-        var collection = db.collection('signalLog');
-        collection.insert(signal, function(err, result) {
-            db.close();
-        });
+    var collection = db.collection('signalLog');
+    collection.insert(signal, (err, result) => {
+        if (err) {
+            console.log(err);
+        }
     });
-
 }

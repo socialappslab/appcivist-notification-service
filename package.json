@@ -11,7 +11,8 @@
         "request" : "2.78.x",
         "morgan" :"1.7",
         "body-parser" : "1.15",
-	"bson" : "1.0.x" 
+        "amqplib":"0.5.x",
+	      "bson" : "1.0.x"
     },
     "devDependencies": {
         "mocha": "*",

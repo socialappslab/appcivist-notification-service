@@ -1,15 +1,14 @@
-var mongo = require('mongodb').MongoClient;
-var dbutils = require('../lib/dbutils.js');
-var mongoUri = dbutils.mongoUri;
-
 exports.findRecent = function(req, res) {
 
-  mongo.connect(mongoUri, function (err, db) {
+    db = req.app.get('db');
     var collection = db.collection('signalLog');
-      collection.find().sort({_id:-1}).limit(5).toArray(function(err, items) {
-        res.send(items);
-        db.close();
-      });
-  });
+    collection.find().sort({
+        _id: -1
+    }).limit(5).toArray((err, items) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.send(items);
+        }
+    });
 }
- 
