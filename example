@@ -1,0 +1,15 @@
+
+//create an event
+curl -X POST http://localhost:3025/events -H "Content-Type: application/json"  -d '{"title": "test", "eventId": "153f8576-7208-41b6-affd-32795f06dca5_NEW_CONTRIBUTION_IDEA"}'
+
+curl http://localhost:3025/events/593671f2a077a5c8cbe3c33f
+
+
+//create a subscription
+curl -X POST http://localhost:3025/subscriptions -H "Content-Type: application/json" -d '{ "eventId": "153f8576-7208-41b6-affd-32795f06dca5_NEW_CONTRIBUTION_IDEA", "alertEndpoint": "angarita.rafael@gmail.com", "endpointType" : "email"}'
+curl -X POST http://localhost:3025/subscriptions -H "Content-Type: application/json" -d '{ "eventId": "153f8576-7208-41b6-affd-32795f06dca5_NEW_CONTRIBUTION_IDEA", "alertEndpoint": "rafaelangarita", "endpointType" : "facebookmessenger"}'
+
+//throw a signal
+curl -X POST http://localhost:3025/signals -H "Content-Type: application/json" -d '{ "eventId": "153f8576-7208-41b6-affd-32795f06dca5_NEW_CONTRIBUTION_IDEA", "title": "This is the title of the signal", "text": "this is the body of the signal", "instancedata": "An instance of event(12345_new_campaign) has happened"}'
+//signal with filterBy
+curl -X POST http://localhost:3025/signals -H "Content-Type: application/json" -d '{ "eventId": "153f8576-7208-41b6-affd-32795f06dca5_NEW_CONTRIBUTION_IDEA", "title": "This is the title of the signal", "text": "this is the body of the signal", "filterBy": "facebookmessenger", "instancedata": "An instance of event(12345_new_campaign) has happened"}'
