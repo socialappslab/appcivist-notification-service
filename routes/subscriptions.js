@@ -19,7 +19,7 @@ Subscriptions look like this in JSON
 */
 
 
-exports.findById = function(req, res) {
+exports.findById = (req, res) => {
     var id = req.params.id;
     console.log("Looking up subscription with id = " + id);
 
@@ -27,7 +27,7 @@ exports.findById = function(req, res) {
     var collection = db.collection('subscriptions');
     collection.findOne({
         '_id': new BSON.ObjectID(id)
-    }, function(err, item) {
+    }, (err, item) => {
         if (err) {
             res.status(500).send(err);
         } else {
@@ -36,10 +36,10 @@ exports.findById = function(req, res) {
     });
 }
 
-exports.findAll = function(req, res) {
+exports.findAll = (req, res) => {
     db = req.app.get('db');
     var collection = db.collection('subscriptions');
-    collection.find().toArray(function(err, items) {
+    collection.find().toArray((err, items) => {
         if (err) {
             res.status(500).send(err);
         } else {
@@ -48,7 +48,8 @@ exports.findAll = function(req, res) {
     });
 }
 
-exports.addSubscription = function(req, res) {
+exports.addSubscription = (req, res) => {
+    //TODO: check if the 'endpointType' is a valid one
     var subscription = req.body;
     var db = req.app.get('db');
     var collection = db.collection('subscriptions');
@@ -56,11 +57,11 @@ exports.addSubscription = function(req, res) {
             'eventId': subscription.eventId,
             'alertEndpoint': subscription.alertEndpoint
         },
-        function(err, item) {
+        (err, item) => {
             if (item != null && item != undefined) {
-                res.status(201).send("Subscription already exist");
+                res.status(201).send("Subscription already exists");
             } else {
-                collection.insert(subscription, function(err, result) {
+                collection.insert(subscription, (err, result) => {
                     if (err) {
                         res.status(500).send(err);
                     } else {
@@ -71,7 +72,7 @@ exports.addSubscription = function(req, res) {
         });
 }
 
-exports.updateSubscription = function(req, res) {
+exports.updateSubscription = (req, res) => {
     var id = req.params.id;
     var subscription = req.body;
 
@@ -81,7 +82,7 @@ exports.updateSubscription = function(req, res) {
         '_id': new BSON.ObjectID(id)
     }, subscription, {
         safe: true
-    }, function(err, result) {
+    }, (err, result) => {
         if (err) {
             res.status(500).send(err);
         } else {
@@ -90,7 +91,7 @@ exports.updateSubscription = function(req, res) {
     });
 }
 
-exports.deleteSubscription = function(req, res) {
+exports.deleteSubscription = (req, res) => {
     var id = req.params.id;
 
     var db = req.app.get('db');
@@ -99,7 +100,7 @@ exports.deleteSubscription = function(req, res) {
         '_id': new BSON.ObjectID(id)
     }, {
         safe: true
-    }, function(err, result) {
+    }, (err, result) => {
         if (err) {
             res.status(500).send(err);
         } else {
@@ -108,7 +109,7 @@ exports.deleteSubscription = function(req, res) {
     });
 }
 
-exports.findByEventIdAndAlert = function(req, res) {
+exports.findByEventIdAndAlert = (req, res) => {
     console.log("Request = " + JSON.stringify(req.params));
     var eid = req.params.eid;
     var alert = req.params.alert;
@@ -119,7 +120,7 @@ exports.findByEventIdAndAlert = function(req, res) {
     collection.findOne({
         'eventId': eid,
         'alertEndpoint': alert
-    }, function(err, item) {
+    }, (err, item) => {
         if (err) {
             res.status(500).send(err);
         } else {
@@ -128,7 +129,7 @@ exports.findByEventIdAndAlert = function(req, res) {
     });
 }
 
-exports.findByAlertEndpoint = function(req, res) {
+exports.findByAlertEndpoint = (req, res) => {
     console.log("Request = " + JSON.stringify(req.params));
     var alert = req.params.alert;
     console.log("Looking up subscription with alertEndpoint = " + alert);
@@ -137,7 +138,7 @@ exports.findByAlertEndpoint = function(req, res) {
     var collection = db.collection('subscriptions');
     collection.find({
         'alertEndpoint': alert
-    }).toArray(function(err, items) {
+    }).toArray((err, items) => {
         if (err) {
             res.status(500).send(err);
         } else {

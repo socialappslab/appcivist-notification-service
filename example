@@ -1,22 +1,15 @@
 
-
+//create an event
 curl -X POST http://localhost:3025/events -H "Content-Type: application/json"  -d '{"title": "test", "eventId": "153f8576-7208-41b6-affd-32795f06dca5_NEW_CONTRIBUTION_IDEA"}'
 
 curl http://localhost:3025/events/593671f2a077a5c8cbe3c33f
 
-curl -X POST http://localhost:3025/subscriptions -H "Content-Type: application/json" -d '{ "eventId": "153f8576-7208-41b6-affd-32795f06dca5_NEW_CONTRIBUTION_IDEA", "alertEndpoint": "angarita.rafael@gmail.com", "_id": "521a5af259b05b8099000001"}'
 
+//create a subscription
+curl -X POST http://localhost:3025/subscriptions -H "Content-Type: application/json" -d '{ "eventId": "153f8576-7208-41b6-affd-32795f06dca5_NEW_CONTRIBUTION_IDEA", "alertEndpoint": "angarita.rafael@gmail.com", "endpointType" : "email"}'
+curl -X POST http://localhost:3025/subscriptions -H "Content-Type: application/json" -d '{ "eventId": "153f8576-7208-41b6-affd-32795f06dca5_NEW_CONTRIBUTION_IDEA", "alertEndpoint": "rafaelangarita", "endpointType" : "facebookmessenger"}'
 
-curl -X GET http://localhost:3000/subscriptions
-
-
-\
-\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
-
-\f0\fs22 \cf0 \CocoaLigature0 curl -X POST http://localhost:3000/signals
-\f1\fs26 \cf2 \cb3 \expnd0\expndtw0\kerning0
-\CocoaLigature1 -H \cf4 "Content-Type: application/json"\cf2  -d
-\f2\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 '
-\f1\fs26 \cf2 \cb3 \expnd0\expndtw0\kerning0
-\{"eventTitle": "test", "instancedata": "This one weighed more than 16 megatons!!"\}
-\f2\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 '}
+//throw a signal
+curl -X POST http://localhost:3025/signals -H "Content-Type: application/json" -d '{ "eventId": "153f8576-7208-41b6-affd-32795f06dca5_NEW_CONTRIBUTION_IDEA", "title": "This is the title of the signal", "text": "this is the body of the signal", "instancedata": "An instance of event(12345_new_campaign) has happened"}'
+//signal with filterBy
+curl -X POST http://localhost:3025/signals -H "Content-Type: application/json" -d '{ "eventId": "153f8576-7208-41b6-affd-32795f06dca5_NEW_CONTRIBUTION_IDEA", "title": "This is the title of the signal", "text": "this is the body of the signal", "filterBy": "facebookmessenger", "instancedata": "An instance of event(12345_new_campaign) has happened"}'
