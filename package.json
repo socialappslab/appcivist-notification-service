@@ -12,7 +12,9 @@
         "morgan" :"1.7",
         "body-parser" : "1.15",
         "amqplib":"0.5.x",
-	      "bson" : "1.0.x"
+	      "bson" : "1.0.x",
+        "message-transformer": "git+https://gitlab.inria.fr/usnb/message-transformer.git"
+
     },
     "devDependencies": {
         "mocha": "*",

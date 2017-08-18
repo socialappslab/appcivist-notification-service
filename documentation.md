@@ -39,6 +39,13 @@ module.exports = {
 }
 </code>
 
+Setup  environment variables on your OS. The project requires this two environment variables: 
+
+```
+USNB_MONGO_URI_NOTIFICATIONS = mongodb://[host]:27017/notificationservice
+USNB_NOTIFICATIONS_PORT = any port you want to use 
+```
+
 then start the server ...
 ```
 node server.js
