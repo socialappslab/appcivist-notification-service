@@ -44,6 +44,7 @@ Setup  environment variables on your OS. The project requires this two environme
 ```
 USNB_MONGO_URI_NOTIFICATIONS = mongodb://[host]:27017/notificationservice
 USNB_NOTIFICATIONS_PORT = any port you want to use 
+USNB_ENTITY_MANAGER_HOST = host to entity-manager server. Example: http://127.0.0.1:8889
 ```
 
 then start the server ...
