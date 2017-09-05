@@ -40,6 +40,12 @@ app.delete('/events/:id', event.deleteEvent);
 
 console.log('registering subscription routes with express');
 app.get('/subscriptions', sub.findAll);
+app.get('/subscriptions/user/:userId', sub.findByUserId);
+app.get('/subscriptions/entity/:entityId/user/:userId', sub.findByUserEntity);
+app.get('/subscriptions/entity/:entityId', sub.findByEntity);
+app.put('/subscriptions/', sub.updateByEntityUserType);
+app.delete('/subscriptions/', sub.deleteByEntityUserType);
+
 app.get('/subscriptions/endpoint/:alert', sub.findByAlertEndpoint);
 app.get('/subscriptions/:id', sub.findById);
 app.post('/subscriptions', sub.addSubscription);
