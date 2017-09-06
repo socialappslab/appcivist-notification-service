@@ -66,7 +66,7 @@ exports.findByUserEntity = (req, res) => {
     var collection = db.collection('subscriptions');
     var query = {
         'userId':parseInt(userId),
-        'spaceId':parseInt(entityId)
+        'spaceId':entityId
     }
     console.log("Looking criteria = " );
     console.log(query);
@@ -91,7 +91,7 @@ exports.findByEntity = (req, res) => {
     var db = req.app.get('db');
     var collection = db.collection('subscriptions');
     var query = {
-        'spaceId':parseInt(entityId)
+        'spaceId':entityId
     }
     collection.find(query).toArray((err, items) => {
         if (err) {
