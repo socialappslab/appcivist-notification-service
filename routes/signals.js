@@ -75,7 +75,7 @@ exports.processSignal = (req, res) => {
 
     db = req.app.get('db');
     var collection = db.collection('subscriptions');
-    var eventName = 'ignoredEventsList.' + signal.eventName;
+    var eventName = 'ignoredEventsList.' + signal.data.eventName;
 
     
     var query1={
